@@ -5,4 +5,4 @@ from django.shortcuts import render
 
 
 def home(request):
-    return HttpResponse('Hello')
+    return render(request, 'ContactBox/home.html')
