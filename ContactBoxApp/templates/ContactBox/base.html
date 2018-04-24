@@ -7,8 +7,12 @@
 </head>
 <body>
     <div class="container">
-        <nav class="navbar">
-            <a href="{% url 'contactbox:home' %}">HOME</a>
+        <nav class="navbar navbar-expand-sm bg-info navbar-light">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link lead text-dark" href="{% url 'contactbox:home' %}">HOME </a>
+                </li>
+            </ul>
         </nav>
 
         {% block content %}
