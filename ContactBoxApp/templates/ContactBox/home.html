@@ -3,7 +3,7 @@
 {% block title %}Contact Box{% endblock %}
 
 {% block content %}
-    <br/>
+
     <table class="table table-dark table-striped table-bordered">
         <thead class="lead">
             <th>Nazwisko</th>
@@ -15,7 +15,7 @@
     {% for person in persons %}
         <tr>
             <td><a href="{% url 'contactbox:person' person.id %}">{{ person.surname }}</a></td>
-            <td><a href="{% url 'contactbox:person' person.id %}">{{ person.name }}</a></td>
+            <td><a class="text-light" href="{% url 'contactbox:person' person.id %}">{{ person.name }}</a></td>
             <td><button class="btn btn-warning">modyfikuj</button></td>
             <td><button class="btn btn-danger">usuń</button></td>
         </tr>
@@ -23,5 +23,6 @@
     </tbody>
     </table>
     <br/>
+    <a href="{% url 'contactbox:new' %}"><button class="btn btn-success">Nowy kontakt</button></a>
 
 {% endblock %}
