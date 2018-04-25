@@ -37,7 +37,7 @@ class Phone(models.Model):
     type = models.CharField(max_length=1, choices=phone_types, default=1)
 
     def __str__(self):
-        self.person.name, self.person.surname, self.number, self.type
+        return self.person.name, self.person.surname, self.number, self.type
 
 
 email_types = (
@@ -52,9 +52,12 @@ class Email(models.Model):
     type = models.CharField(max_length=1, choices=email_types, default=1)
 
     def __str__(self):
-        self.person.name, self.person.surname, self.email, self.type
+        return self.person.name, self.person.surname, self.email, self.type
 
 
 class Groups(models.Model):
     person = models.ManyToManyField("Person")
     name = models.CharField(max_length=128)
+
+    def __str__(self):
+        return self.name
