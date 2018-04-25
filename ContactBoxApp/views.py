@@ -1,11 +1,17 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
+from .models import *
+
 # Create your views here.
 
 
 def home(request):
-    return render(request, 'ContactBox/home.html')
+    persons = Person.objects.all().order_by('surname')
+    ctx = {
+        "persons": persons,
+    }
+    return render(request, 'ContactBox/home.html', ctx)
 
 
 class NewPersonView(View):

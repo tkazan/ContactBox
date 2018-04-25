@@ -11,17 +11,21 @@ class Person(models.Model):
     address = models.ForeignKey("Address")
 
     def __str__(self):
-        return self.name, self.surname
+        return "{} {}".format(self.name, self.surname)
 
 
 class Address(models.Model):
     city = models.CharField(max_length=64)
     street = models.CharField(max_length=128)
     house_nr = models.IntegerField()
-    flat_nr = models.IntegerField(null=True)
+    flat_nr = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
-        return self.city, self.street, self.house_nr, self.flat_nr
+        if self.flat_nr:
+            return "{}, {} {}/{}".format(self.city, self.street,
+                                        self.house_nr, self.flat_nr)
+        else:
+            return "{}, {} {}".format(self.city, self.street, self.house_nr)
 
 
 phone_types = (
@@ -37,7 +41,8 @@ class Phone(models.Model):
     type = models.CharField(max_length=1, choices=phone_types, default=1)
 
     def __str__(self):
-        return self.person.name, self.person.surname, self.number, self.type
+        return "{} {} {} {}".format(self.person.name, self.person.surname,
+                                    self.number, self.type)
 
 
 email_types = (
@@ -52,7 +57,8 @@ class Email(models.Model):
     type = models.CharField(max_length=1, choices=email_types, default=1)
 
     def __str__(self):
-        return self.person.name, self.person.surname, self.email, self.type
+        return "{} {} {} {}".format(self.person.name, self.person.surname,
+                                    self.email, self.type)
 
 
 class Groups(models.Model):
