@@ -24,7 +24,18 @@
                     {% if person.address.flat_nr %}/{{ person.address.flat_nr }}
                     {% endif %}
                 </td>
-                <td></td>
+                <td>{% for phone in person.phone_set.all %}
+                    {{ phone.number }} - {{ phone.get_type_display }} <br/>
+                    {% endfor %}
+                </td>
+                <td>{% for mail in person.email_set.all %}
+                    {{ mail.email }} - {{ mail.get_type_display }} <br/>
+                    {% endfor %}
+                </td>
+                <td>{% for group in person.groups_set.all %}
+                    {{ group.name }} <br/>
+                    {% endfor %}
+                </td>
 
             </tr>
         </tbody>

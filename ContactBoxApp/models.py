@@ -29,20 +29,20 @@ class Address(models.Model):
 
 
 phone_types = (
-    (1, 'home'),
-    (2, 'mobile'),
-    (3, 'business'),
+    (1, "home"),
+    (2, "mobile"),
+    (3, "business"),
 )
 
 
 class Phone(models.Model):
     person = models.ForeignKey("Person")
-    number = models.IntegerField()
-    type = models.CharField(max_length=1, choices=phone_types, default=1)
+    number = models.CharField(max_length=64)
+    type = models.IntegerField(choices=phone_types)
 
     def __str__(self):
-        return "{} {} {} {}".format(self.person.name, self.person.surname,
-                                    self.number, self.type)
+        return "{} {} {} - {}".format(self.person.name, self.person.surname,
+                                    self.number, self.get_type_display())
 
 
 email_types = (
@@ -54,11 +54,11 @@ email_types = (
 class Email(models.Model):
     person = models.ForeignKey("Person")
     email = models.EmailField()
-    type = models.CharField(max_length=1, choices=email_types, default=1)
+    type = models.IntegerField(choices=email_types)
 
     def __str__(self):
-        return "{} {} {} {}".format(self.person.name, self.person.surname,
-                                    self.email, self.type)
+        return "{} {} - {} - {}".format(self.person.name, self.person.surname,
+                                    self.email, self.get_type_display())
 
 
 class Groups(models.Model):
