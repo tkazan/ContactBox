@@ -14,12 +14,14 @@
     <tbody>
     {% for person in persons %}
         <tr>
-            <td>{{ person.surname }}</td>
-            <td>{{ person.name }}</td>
+            <td><a href="{% url 'contactbox:person' person.id %}">{{ person.surname }}</a></td>
+            <td><a href="{% url 'contactbox:person' person.id %}">{{ person.name }}</a></td>
             <td><button class="btn btn-warning">modyfikuj</button></td>
             <td><button class="btn btn-danger">usuń</button></td>
         </tr>
     {% endfor %}
     </tbody>
     </table>
+    <br/>
+
 {% endblock %}

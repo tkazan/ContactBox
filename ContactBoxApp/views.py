@@ -23,8 +23,12 @@ class NewPersonView(View):
 
 
 class ShowPersonView(View):
-    def get(self, request):
-        pass
+    def get(self, request, id):
+        person = Person.objects.get(id=id)
+        ctx = {
+            'person': person,
+        }
+        return render(request, 'ContactBox/show.html', ctx)
 
     def post(self, request):
         pass

@@ -1,0 +1,10 @@
+{% extends 'ContactBox/base.html' %}
+
+{% block title %}{{ person.name }}{{ person.surname }} details{% endblock %}
+
+{% block content %}
+    Imię: {{ person.name }}
+    Nazwisko: {{ person.surname }}
+    Opis: {{ person.description }}
+    Adres: {{ person.address.city }}
+{% endblock %}
