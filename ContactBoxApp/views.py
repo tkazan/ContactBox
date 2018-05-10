@@ -1,6 +1,8 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
+from django.urls import reverse
+
 from .models import *
 from .forms import *
 
@@ -32,12 +34,29 @@ class NewPersonView(View):
         return render(request, 'ContactBox/new.html', ctx)
 
     def post(self, request):
-        pass
+        form = NewPersonForm(request.POST)
+        form2 = NewAddressForm(request.POST)
+        form3 = NewPhoneForm(request.POST)
+        form4 = NewEmailForm(request.POST)
+        form5 = NewGroupsForm(request.POST)
+
+        if form.is_valid():
+            f = form.save()
+            return redirect(reverse('contactbox:home'))
+
+
+    # form = NewPostForm(request.POST)
+    # description = request.POST.get('description')
+    # if form.is_valid():
+    #     f = form.save(commit=False)
+    #     f.description = description
+    #     f.save()
+    #     return redirect(reverse("home"))
 
 
 class ShowPersonView(View):
     def get(self, request, id):
-        person = Person.objects.get(id=id)
+        person = get_object_or_404(Person, pk=id)
         ctx = {
             'person': person,
         }
@@ -56,8 +75,17 @@ class ModifyPersonView(View):
 
 
 class DeletePersonView(View):
-    def get(self, request):
-        pass
+    def get(self, request, id):
+        person = get_object_or_404(Person, pk=id)
+        ctx = {
+            "person": person,
+        }
+        return render(request, "ContactBox/delete.html", ctx)
 
-    def post(self, request):
-        pass
+    def post(self, request, id):
+        action = request.POST.get("submit")
+
+        if action == "YES":
+            person = Person.objects.get(pk=id)
+            person.delete()
+        return redirect(reverse("contactbox:home"))

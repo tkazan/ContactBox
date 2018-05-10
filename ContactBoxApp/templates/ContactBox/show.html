@@ -19,8 +19,12 @@
                 <td>{{ person.name }}</td>
                 <td>{{ person.surname }}</td>
                 <td>{{ person.description }}</td>
-                <td>{{ person.address.city }}, <br/>
+                <td>{% if person.address.city %}
+                    {{ person.address.city }}, <br/>
+                    {% endif %}
+                    {% if person.address.street %}
                     ul. {{ person.address.street }} {{ person.address.house_nr }}
+                    {% endif %}
                     {% if person.address.flat_nr %}/{{ person.address.flat_nr }}
                     {% endif %}
                 </td>

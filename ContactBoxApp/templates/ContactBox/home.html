@@ -17,7 +17,7 @@
             <td><a class="text-light" href="{% url 'contactbox:person' person.id %}">{{ person.surname }}</a></td>
             <td><a class="text-light" href="{% url 'contactbox:person' person.id %}">{{ person.name }}</a></td>
             <td><button class="btn btn-warning">modyfikuj</button></td>
-            <td><button class="btn btn-danger">usuń</button></td>
+            <td><a href="{% url 'contactbox:delete' person.id %}"><button class="btn btn-danger">usuń</button></a></td>
         </tr>
     {% endfor %}
     </tbody>
