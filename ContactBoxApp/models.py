@@ -5,20 +5,21 @@ from django.db import models
 
 
 class Person(models.Model):
-    name = models.CharField(max_length=64)
-    surname = models.CharField(max_length=128)
-    description = models.TextField(default="")
+    name = models.CharField(max_length=64, verbose_name='Imię')
+    surname = models.CharField(max_length=128, verbose_name='Nazwisko')
+    description = models.TextField(default="", verbose_name='Opis')
     address = models.ForeignKey("Address")
+    groups = models.ManyToManyField("Groups")
 
     def __str__(self):
         return "{} {}".format(self.name, self.surname)
 
 
 class Address(models.Model):
-    city = models.CharField(max_length=64)
-    street = models.CharField(max_length=128)
-    house_nr = models.IntegerField()
-    flat_nr = models.IntegerField(null=True, blank=True)
+    city = models.CharField(max_length=64, verbose_name='Miasto')
+    street = models.CharField(max_length=128, verbose_name='Ulica')
+    house_nr = models.IntegerField(verbose_name='Nr domu')
+    flat_nr = models.IntegerField(null=True, blank=True, verbose_name='Nr mieszkania')
 
     def __str__(self):
         if self.flat_nr:
@@ -37,8 +38,8 @@ phone_types = (
 
 class Phone(models.Model):
     person = models.ForeignKey("Person")
-    number = models.CharField(max_length=64)
-    type = models.IntegerField(choices=phone_types)
+    number = models.CharField(max_length=64, verbose_name='Numer')
+    type = models.IntegerField(choices=phone_types, verbose_name='Typ')
 
     def __str__(self):
         return "{} {} {} - {}".format(self.person.name, self.person.surname,
@@ -54,7 +55,7 @@ email_types = (
 class Email(models.Model):
     person = models.ForeignKey("Person")
     email = models.EmailField()
-    type = models.IntegerField(choices=email_types)
+    type = models.IntegerField(choices=email_types, verbose_name='Typ')
 
     def __str__(self):
         return "{} {} - {} - {}".format(self.person.name, self.person.surname,
@@ -62,8 +63,7 @@ class Email(models.Model):
 
 
 class Groups(models.Model):
-    person = models.ManyToManyField("Person")
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, verbose_name='Nazwa')
 
     def __str__(self):
         return self.name

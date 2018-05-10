@@ -19,9 +19,15 @@ class NewPersonView(View):
     def get(self, request):
         form = NewPersonForm()
         form2 = NewAddressForm()
+        form3 = NewPhoneForm()
+        form4 = NewEmailForm()
+        form5 = NewGroupsForm()
         ctx = {
             'form': form,
             'form2': form2,
+            'form3': form3,
+            'form4': form4,
+            'form5': form5,
         }
         return render(request, 'ContactBox/new.html', ctx)
 

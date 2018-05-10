@@ -1,24 +1,48 @@
-{% extends 'ContactBox/base.html' %}
+    {% extends 'ContactBox/base.html' %}
 
-{% block title %}New contact{% endblock %}
+    {% block title %}New contact{% endblock %}
 
-{% block content %}
+    {% block content %}
 
-    <form method="post" action="#">
-    {% csrf_token %}
-        <label><span class="lead">DANE OSOBOWE:</span>
-            <table class="table table-dark table-striped table-bordered">
-                {{ form.as_table }}
-            </table>
-        </label>
-        <br/>
-        <label><span class="lead">ADRES:</span>
-            <table class="table table-dark table-striped table-bordered">
-                {{ form2.as_table }}
-            </table>
-        </label>
-        <br/>
-        <input type="submit" name="add" value="Dodaj kontakt" class="btn btn-success">
-    </form>
+        <form method="post" action="#">
+        {% csrf_token %}
+            <div class="float-left mr-4">
+                <label><span class="lead">DANE OSOBOWE:</span>
+                <table class="table table-dark table-striped table-bordered">
+                    {{ form.as_table }}
+                </table>
+            </label>
+            </div>
+            <div class="float-left">
+            <label><span class="lead">ADRES:</span><br/>
+            <span class="text-warning">*wypełnij jeśli nie ma w adresach</span>
+                <table class="table table-dark table-striped table-bordered">
+                    {{ form2.as_table }}
+                </table>
+            </label>
+            <br/>
+            <label><span class="lead">GRUPY:</span><br/>
+            <span class="text-warning">*wypełnij jeśli chcesz dodać nową grupę</span>
+                <table class="table table-dark table-striped table-bordered">
+                    {{ form5.as_table }}
+                </table>
+            </label>
+            </div>
+            <div class="clearfix"></div>
+            <br/>
+            <label><span class="lead">TELEFON:</span><br/>
+                <table class="table table-dark table-striped table-bordered">
+                    {{ form3.as_table }}
+                </table>
+            </label>
 
-{% endblock %}
+            <label><span class="lead">EMAIL:</span><br/>
+                <table class="table table-dark table-striped table-bordered">
+                    {{ form4.as_table }}
+                </table>
+            </label>
+            <br/>
+            <input type="submit" name="add" value="Dodaj kontakt" class="btn btn-success">
+        </form>
+
+    {% endblock %}
