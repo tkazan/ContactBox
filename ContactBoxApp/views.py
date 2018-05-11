@@ -120,3 +120,21 @@ class DeletePersonView(View):
             person = Person.objects.get(pk=id)
             person.delete()
         return redirect(reverse("contactbox:home"))
+
+
+class NewGroupView(View):
+    def get(self, request):
+        form = NewGroupsForm()
+        ctx = {
+            'form': form,
+        }
+        return render(request, 'ContactBox/new-group.html', ctx)
+
+    def post(self, request):
+        form = NewGroupsForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('contactbox:home'))
+
+        return redirect(reverse('contactbox:new-group'))
