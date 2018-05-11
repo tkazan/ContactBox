@@ -5,11 +5,11 @@
 {% block content %}
 
     <br/>
-    <h2>Do you really want to delete contact: <strong>{{ person.first }} {{ person.last }}</strong></h2>
+    <h2>Czy na pewno chcesz usunąć kontakt: <strong>{{ person.first }} {{ person.last }}</strong></h2>
     <form method="POST" action="#">
     {% csrf_token %}
-        <input class="btn btn-danger mr-5" type="submit" name="submit" value="NO">
-        <input class="btn btn-success ml-5" type="submit" name="submit" value="YES">
+        <input class="btn btn-danger mr-5" type="submit" name="submit" value="NIE">
+        <input class="btn btn-success ml-5" type="submit" name="submit" value="TAK">
     </form>
 
 {% endblock %}

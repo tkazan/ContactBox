@@ -8,8 +8,8 @@
     <h2>Czy na pewno chcesz usunąć grupę: <strong>{{ group.groupname }}</strong></h2>
     <form method="POST" action="#">
     {% csrf_token %}
-        <input class="btn btn-danger mr-5" type="submit" name="submit" value="NO">
-        <input class="btn btn-success ml-5" type="submit" name="submit" value="YES">
+        <input class="btn btn-danger mr-5" type="submit" name="submit" value="NIE">
+        <input class="btn btn-success ml-5" type="submit" name="submit" value="TAK">
     </form>
 
 {% endblock %}

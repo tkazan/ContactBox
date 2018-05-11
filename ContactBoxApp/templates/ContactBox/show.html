@@ -47,15 +47,15 @@
 
     <div class="float-left">
         {% if prev %}
-        <a href="{% url 'contactbox:person' prev %}"><button class="btn btn-info">Previous</button></a>
+        <a href="{% url 'contactbox:person' prev %}"><button class="btn btn-info">Poprzedni</button></a>
         {% else %}
-        <button class="btn btn-danger">Last</button>
+        <button class="btn btn-danger">Ostatni</button>
         {% endif %}
 
         {% if next %}
-        <a href="{% url 'contactbox:person' next %}"><button class="btn btn-info">Next</button></a>
+        <a href="{% url 'contactbox:person' next %}"><button class="btn btn-info">Kolejny</button></a>
         {% else %}
-        <button class="btn btn-danger">Last</button>
+        <button class="btn btn-danger">Ostatni</button>
         {% endif %}
     </div>
 {% endblock %}

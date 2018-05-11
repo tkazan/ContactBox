@@ -115,7 +115,7 @@ class DeletePersonView(View):
     def post(self, request, id):
         action = request.POST.get("submit")
 
-        if action == "YES":
+        if action == "TAK":
             person = Person.objects.get(pk=id)
             person.delete()
         return redirect(reverse("contactbox:home"))
@@ -177,7 +177,7 @@ class DeleteGroupView(View):
     def post(self, request, id):
         action = request.POST.get("submit")
 
-        if action == "YES":
+        if action == "TAK":
             group = Groups.objects.get(pk=id)
             group.delete()
         return redirect(reverse("contactbox:groups"))
