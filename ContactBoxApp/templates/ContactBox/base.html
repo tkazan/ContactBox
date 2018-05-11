@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <title>{% block title %}{% endblock %}</title>
 </head>
-<body class="bg-dark text-light" >
+<body class="mb-5 bg-dark text-light" >
     <div class="container">
         <nav class="navbar-expand-sm bg-secondary navbar-light">
             <ul class="navbar-nav">
@@ -19,10 +19,21 @@
                 </li>
             </ul>
         </nav>
-    <br/>
+        <br/>
 
         {% block content %}
         {% endblock %}
+
+        <footer class="container bg-secondary text-center py-1 fixed-bottom">
+            <span class="mr-5">2018 created by: Tobiasz Kazanowski</span>
+            <a class="text-light" href="mailto: tobiaszkazanowski@gmail.com" >
+                <i class="fa fa-envelope mr-1"></i>tobiaszkazanowski@gmail.com
+            </a>
+            <a class="text-light" href="https://github.com/tkazan" target="_blank">
+                <i class="fa fa-github fa-lg mr-1 ml-5"></i>github.com/tkazan
+            </a>
+        </footer>
+
     </div>
 </body>
 </html>

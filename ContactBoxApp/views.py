@@ -13,7 +13,7 @@ from .forms import *
 def home(request):
     person_list = Person.objects.all().order_by('last')
     page = request.GET.get('page', 1)
-    paginator = Paginator(person_list, 1)
+    paginator = Paginator(person_list, 3)
     try:
         persons = paginator.page(page)
     except PageNotAnInteger:
