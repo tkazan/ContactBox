@@ -74,27 +74,23 @@ class NewPersonView(View):
         return redirect(reverse('contactbox:new'))
 
 
-class ShowPersonView(View):
-    def get(self, request, id):
-        person = get_object_or_404(Person, pk=id)
-        try:
-            next = Person.objects.filter(pk__gt=id)[0].id
-        except:
-            next = None
-        try:
-            p = Person.objects.filter(id__lt=id, )
-            prev = p[len(p)-1].id
-        except:
-            prev = None
-        ctx = {
-            'person': person,
-            'next': next,
-            'prev': prev,
-        }
-        return render(request, 'ContactBox/show.html', ctx)
-
-    def post(self, request):
-        pass
+def show_person(request, id):
+    person = get_object_or_404(Person, pk=id)
+    try:
+        next = Person.objects.filter(pk__gt=id)[0].id
+    except:
+        next = None
+    try:
+        p = Person.objects.filter(id__lt=id, )
+        prev = p[len(p)-1].id
+    except:
+        prev = None
+    ctx = {
+        'person': person,
+        'next': next,
+        'prev': prev,
+    }
+    return render(request, 'ContactBox/show.html', ctx)
 
 
 class ModifyPersonView(View):
@@ -122,19 +118,46 @@ class DeletePersonView(View):
         return redirect(reverse("contactbox:home"))
 
 
-class NewGroupView(View):
+class GroupsView(View):
     def get(self, request):
         form = NewGroupsForm()
+        groups = Groups.objects.all().order_by('groupname')
         ctx = {
             'form': form,
+            'groups': groups,
         }
-        return render(request, 'ContactBox/new-group.html', ctx)
+        return render(request, 'ContactBox/groups.html', ctx)
 
     def post(self, request):
         form = NewGroupsForm(request.POST)
 
         if form.is_valid():
             form.save()
-            return redirect(reverse('contactbox:home'))
 
-        return redirect(reverse('contactbox:new-group'))
+        return redirect(reverse('contactbox:groups'))
+
+
+class ModifyGroupView(View):
+    def get(self, request):
+        pass
+
+    def post(self, request):
+        pass
+
+
+class DeleteGroupView(View):
+    def get(self, request, id):
+        group = get_object_or_404(Groups, pk=id)
+        ctx = {
+            "group": group,
+        }
+        return render(request, "ContactBox/delete-group.html", ctx)
+
+    def post(self, request, id):
+        action = request.POST.get("submit")
+
+        if action == "YES":
+            group = Groups.objects.get(pk=id)
+            group.delete()
+        return redirect(reverse("contactbox:groups"))
+

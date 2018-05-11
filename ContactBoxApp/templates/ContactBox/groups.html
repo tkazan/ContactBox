@@ -1,0 +1,42 @@
+{% extends 'ContactBox/base.html' %}
+
+    {% block title %}New group{% endblock %}
+
+    {% block content %}
+     <table class="table table-dark table-bordered">
+            <thead class="lead">
+                <th>GRUPY KONTAKTÓW</th>
+            </thead>
+            <tbody>
+                {% for group in groups %}
+                <tr>
+                    <td>
+                        <span class="lead"> {{ group.groupname }}</span><br/>
+                        {% if group.person_set.all %}
+                        {% for person in group.person_set.all %}
+                        <span class="small">{{ person.first }} {{ person.last }}, </span>
+                        {% endfor %}
+                        {% endif %}
+                    </td>
+                    <td><a href="{% url 'contactbox:modify-groups' group.id %}">
+                        <button class="btn btn-warning">Modyfikuj</button>
+                    </a></td>
+                    <td><a href="{% url 'contactbox:delete-groups' group.id %}">
+                        <button class="btn btn-danger">Usuń</button></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+     </table>
+        <br/>
+        <form method="post" action="#">
+        {% csrf_token %}
+            <label><span class="lead">DODAJ NOWĄ GRUPĘ:</span><br/>
+            <table class="table table-dark table-striped table-bordered">
+                {{ form.as_table }}
+            </table>
+            </label>
+            <br/>
+            <input type="submit" name="add" value="Dodaj grupę" class="btn btn-success">
+        </form>
+
+    {% endblock %}
