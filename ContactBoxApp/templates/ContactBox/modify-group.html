@@ -1,10 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'ContactBox/base.html' %}
 
-</body>
-</html>
+{% block title %}Modify Group{% endblock %}
+
+{% block content %}
+
+    <h2>Modyfikuj grupę: {{ group.groupname }}</h2>
+    <p class="text-danger">{{ message }}</p>
+    <form method="POST" action="#">
+    {% csrf_token %}
+        <label>Nazwa grupy
+            <input type="text" name="groupname" value="{{ group.groupname }}" class="form-control">
+        </label>
+        <br/>
+        <input class="btn btn-warning mr-5" type="submit" value="Edytuj">
+        <a href="{% url 'contactbox:groups' %}">
+            <button class="btn btn-info ml-5">Wróć</button>
+        </a>
+    </form>
+
+{% endblock %}

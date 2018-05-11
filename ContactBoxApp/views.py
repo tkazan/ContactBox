@@ -13,7 +13,7 @@ from .forms import *
 def home(request):
     person_list = Person.objects.all().order_by('last')
     page = request.GET.get('page', 1)
-    paginator = Paginator(person_list, 3)
+    paginator = Paginator(person_list, 5)
     try:
         persons = paginator.page(page)
     except PageNotAnInteger:
@@ -28,6 +28,7 @@ def home(request):
 
 
 class NewPersonView(View):
+
     def get(self, request):
         form = NewPersonForm()
         form2 = NewAddressForm()
@@ -94,6 +95,7 @@ def show_person(request, id):
 
 
 class ModifyPersonView(View):
+
     def get(self, request):
         pass
 
@@ -102,6 +104,7 @@ class ModifyPersonView(View):
 
 
 class DeletePersonView(View):
+
     def get(self, request, id):
         person = get_object_or_404(Person, pk=id)
         ctx = {
@@ -119,6 +122,7 @@ class DeletePersonView(View):
 
 
 class GroupsView(View):
+
     def get(self, request):
         form = NewGroupsForm()
         groups = Groups.objects.all().order_by('groupname')
@@ -138,11 +142,28 @@ class GroupsView(View):
 
 
 class ModifyGroupView(View):
-    def get(self, request):
-        pass
 
-    def post(self, request):
-        pass
+    def get(self, request, id):
+        group = get_object_or_404(Groups, pk=id)
+        ctx = {
+            "group": group,
+        }
+        return render(request, "ContactBox/modify-group.html", ctx)
+
+    def post(self, request, id):
+        groupname = request.POST.get("groupname")
+        group = Groups.objects.get(pk=id)
+        try:
+            group.groupname = groupname
+            group.save()
+            return redirect(reverse("contactbox:groups"))
+        except Exception as e:
+            message = "Something went wrong: {}".format(e)
+            ctx = {
+                "message": message,
+                "group": group,
+            }
+            return render(request, 'ContactBox/modify-group.html', ctx)
 
 
 class DeleteGroupView(View):
