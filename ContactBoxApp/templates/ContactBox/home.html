@@ -14,15 +14,40 @@
     <tbody>
     {% for person in persons %}
         <tr>
-            <td><a class="text-light" href="{% url 'contactbox:person' person.id %}">{{ person.surname }}</a></td>
-            <td><a class="text-light" href="{% url 'contactbox:person' person.id %}">{{ person.name }}</a></td>
+            <td><a class="text-light" href="{% url 'contactbox:person' person.id %}">{{ person.last }}</a></td>
+            <td><a class="text-light" href="{% url 'contactbox:person' person.id %}">{{ person.first }}</a></td>
             <td><button class="btn btn-warning">modyfikuj</button></td>
             <td><a href="{% url 'contactbox:delete' person.id %}"><button class="btn btn-danger">usuń</button></a></td>
         </tr>
     {% endfor %}
     </tbody>
     </table>
+
+    {% if persons.has_other_pages %}
+    <ul class="pagination justify-content-center">
+        {% if persons.has_previous %}
+            <li class="page-item"><a class="page-link bg-dark text-light" href="?page={{ persons.previous_page_number }}">&laquo;</a></li>
+        {% else %}
+            <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+        {% endif %}
+
+        {% for i in persons.paginator.page_range %}
+        {% if persons.number == i %}
+            <li class="page-item active"><span class="page-link bg-light text-dark">{{ i }} <span class="sr-only">(current)</span></span></li>
+        {% else %}
+            <li class="page-item"><a class="page-link bg-dark text-light" href="?page={{ i }}">{{ i }}</a></li>
+        {% endif %}
+        {% endfor %}
+
+        {% if persons.has_next %}
+            <li class="page-item"><a class="page-link bg-dark text-light" href="?page={{ persons.next_page_number }}">&raquo;</a></li>
+        {% else %}
+            <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+        {% endif %}
+    </ul>
+    {% endif %}
     <br/>
+
     <a href="{% url 'contactbox:new' %}"><button class="btn btn-success">Nowy kontakt</button></a>
 
 {% endblock %}

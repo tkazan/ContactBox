@@ -5,7 +5,7 @@
 {% block content %}
 
     <br/>
-    <h2>Do you really want to delete contact: <strong>{{ person.name }} {{ person.surname }}</strong></h2>
+    <h2>Do you really want to delete contact: <strong>{{ person.first }} {{ person.last }}</strong></h2>
     <form method="POST" action="#">
     {% csrf_token %}
         <input class="btn btn-danger mr-5" type="submit" name="submit" value="NO">

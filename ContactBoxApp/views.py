@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.urls import reverse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import *
 from .forms import *
@@ -10,7 +11,16 @@ from .forms import *
 
 
 def home(request):
-    persons = Person.objects.all().order_by('surname')
+    person_list = Person.objects.all().order_by('last')
+    page = request.GET.get('page', 1)
+    paginator = Paginator(person_list, 1)
+    try:
+        persons = paginator.page(page)
+    except PageNotAnInteger:
+        persons = paginator.page(1)
+    except EmptyPage:
+        persons = paginator.page(paginator.num_pages)
+
     ctx = {
         "persons": persons,
     }
@@ -23,7 +33,7 @@ class NewPersonView(View):
         form2 = NewAddressForm()
         form3 = NewPhoneForm()
         form4 = NewEmailForm()
-        form5 = NewGroupsForm()
+        form5 = NewPersonGroupsForm()
         ctx = {
             'form': form,
             'form2': form2,
@@ -38,27 +48,48 @@ class NewPersonView(View):
         form2 = NewAddressForm(request.POST)
         form3 = NewPhoneForm(request.POST)
         form4 = NewEmailForm(request.POST)
-        form5 = NewGroupsForm(request.POST)
+        form5 = NewPersonGroupsForm(request.POST)
 
-        if form.is_valid():
-            f = form.save()
+        if (form.is_valid() and form2.is_valid() and form3.is_valid()
+            and form4.is_valid() and form5.is_valid()):
+
+            f = form.save(commit=False)
+            f2 = form2.save()
+
+            if f.address == None:
+                f.address = f2
+            f.save()
+            f3 = form3.save(commit=False)
+            f3.person = f
+            f3.save()
+            f4 = form4.save(commit=False)
+            f4.person = f
+            f4.save()
+            f5 = form5.save(commit=False)
+            f5.person = f
+            f5.save()
+
             return redirect(reverse('contactbox:home'))
 
-
-    # form = NewPostForm(request.POST)
-    # description = request.POST.get('description')
-    # if form.is_valid():
-    #     f = form.save(commit=False)
-    #     f.description = description
-    #     f.save()
-    #     return redirect(reverse("home"))
+        return redirect(reverse('contactbox:new'))
 
 
 class ShowPersonView(View):
     def get(self, request, id):
         person = get_object_or_404(Person, pk=id)
+        try:
+            next = Person.objects.filter(pk__gt=id)[0].id
+        except:
+            next = None
+        try:
+            p = Person.objects.filter(id__lt=id, )
+            prev = p[len(p)-1].id
+        except:
+            prev = None
         ctx = {
             'person': person,
+            'next': next,
+            'prev': prev,
         }
         return render(request, 'ContactBox/show.html', ctx)
 
