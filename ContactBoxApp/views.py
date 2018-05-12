@@ -117,7 +117,7 @@ class ModifyPersonView(View):
 
         PersonGroupsFormSet = formset_factory(NewPersonGroupsForm)
         form5 = PersonGroupsFormSet(initial=[
-            {'groupname': element.groups.groupname} for element in
+            {'groups': element.groups} for element in
             PersonGroups.objects.filter(person=person)
         ])
         ctx = {
@@ -131,11 +131,19 @@ class ModifyPersonView(View):
         return render(request, "ContactBox/modify.html", ctx)
 
     def post(self, request, id):
-        form = NewPersonForm(request.POST)
+        person = get_object_or_404(Person, pk=id)
+
+        form = NewPersonForm(request.POST, instance=person)
         form2 = NewAddressForm(request.POST)
-        form3 = NewPhoneForm(request.POST)
-        form4 = NewEmailForm(request.POST)
-        form5 = NewPersonGroupsForm(request.POST)
+
+        PhoneFormSet = formset_factory(NewPhoneForm)
+        form3 = PhoneFormSet(request.POST)
+
+        EmailFormSet = formset_factory(NewEmailForm)
+        form4 = EmailFormSet(request.POST)
+
+        PersonGroupsFormSet = formset_factory(NewPersonGroupsForm)
+        form5 = PersonGroupsFormSet(request.POST)
 
         if (form.is_valid() and form2.is_valid() and form3.is_valid()
            and form4.is_valid() and form5.is_valid()):
@@ -145,7 +153,29 @@ class ModifyPersonView(View):
                 f.address = f2
             f.save()
 
-        return redirect(reverse('contactbox:home'))
+            # for form in form3:
+            #     if form.is_valid():
+            #         form.save(commit=False)
+            #         form.person = person
+            #         form.save()
+
+            # for form in form4:
+            #     if form.is_valid():
+            #         form.save(commit=False)
+            #         form.person = person
+            #         form.save()
+
+            for form in form5:
+                if form.is_valid():
+                    form.save(commit=False)
+                    form.person = f
+                    form.save()
+
+
+
+            return redirect(reverse('contactbox:home'))
+
+        return redirect(reverse('contactbox:modify', args=id))
 
 
 class DeletePersonView(View):
