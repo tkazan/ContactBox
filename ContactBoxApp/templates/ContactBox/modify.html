@@ -23,12 +23,6 @@
                     {{ form2.as_table }}
                 </table>
             </label>
-                <br/>
-            <label><span class="lead">GRUPY:</span><br/>
-                <table class="table table-dark table-striped table-bordered">
-                    {{ form5.as_table }}
-                </table>
-            </label>
         </div>
         <br/>
         <div class="clearfix"></div>
@@ -38,13 +32,18 @@
                 {{ form3 }}
             </table>
         </label>
-        </label>
 
         <label><span class="lead">EMAIL:</span><br/>
             <table class="table table-dark table-striped table-bordered">
                 {{ form4.as_table }}
             </table>
         </label>
+
+        <label><span class="lead">GRUPY:</span><br/>
+                <table class="table table-dark table-striped table-bordered">
+                    {{ form5.as_table }}
+                </table>
+            </label>
         <br/>
         <input class="btn btn-warning mr-5" type="submit" value="Edytuj">
         <a href="{% url 'contactbox:home' %}">

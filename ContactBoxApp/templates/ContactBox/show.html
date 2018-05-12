@@ -57,5 +57,8 @@
             <button class="btn btn-danger">Ostatni</button>
         {% endif %}
     </div>
-
+    <div class="float-right">
+        <a href="{% url 'contactbox:modify' person.id %}"><button class="btn btn-warning mr-5">modyfikuj</button></a>
+        <a href="{% url 'contactbox:delete' person.id %}"><button class="btn btn-danger">usuń</button></a>
+    </div>
 {% endblock %}

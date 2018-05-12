@@ -99,15 +99,27 @@ class ModifyPersonView(View):
 
     def get(self, request, id):
         person = get_object_or_404(Person, pk=id)
+
         form = NewPersonForm(instance=person)
         form2 = NewAddressForm(instance=person.address)
+
         PhoneFormSet = formset_factory(NewPhoneForm)
         form3 = PhoneFormSet(initial=[
-            {'number': phone.number, 'type': phone.type} for phone in Phone.objects.filter(person=person)
+            {'number': phone.number, 'type': phone.type}
+            for phone in Phone.objects.filter(person=person)
         ])
 
-        form4 = NewEmailForm()
-        form5 = NewPersonGroupsForm()
+        EmailFormSet = formset_factory(NewEmailForm)
+        form4 = EmailFormSet(initial=[
+            {'email': email.email, 'type': email.type} for email in
+            Email.objects.filter(person=person)
+        ])
+
+        PersonGroupsFormSet = formset_factory(NewPersonGroupsForm)
+        form5 = PersonGroupsFormSet(initial=[
+            {'groupname': element.groups.groupname} for element in
+            PersonGroups.objects.filter(person=person)
+        ])
         ctx = {
             "person": person,
             'form': form,
