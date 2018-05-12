@@ -27,6 +27,25 @@ def home(request):
     return render(request, 'ContactBox/home.html', ctx)
 
 
+def show_person(request, id):
+    person = get_object_or_404(Person, pk=id)
+    try:
+        next_person = Person.objects.filter(pk__gt=id)[0].id
+    except:
+        next_person = None
+    try:
+        p = Person.objects.filter(id__lt=id, )
+        prev = p[len(p)-1].id
+    except:
+        prev = None
+    ctx = {
+        'person': person,
+        'next': next_person,
+        'prev': prev,
+    }
+    return render(request, 'ContactBox/show.html', ctx)
+
+
 class NewPersonView(View):
 
     def get(self, request):
@@ -57,7 +76,7 @@ class NewPersonView(View):
             f = form.save(commit=False)
             f2 = form2.save()
 
-            if f.address == None:
+            if f.address:
                 f.address = f2
             f.save()
             f3 = form3.save(commit=False)
@@ -75,29 +94,14 @@ class NewPersonView(View):
         return redirect(reverse('contactbox:new'))
 
 
-def show_person(request, id):
-    person = get_object_or_404(Person, pk=id)
-    try:
-        next = Person.objects.filter(pk__gt=id)[0].id
-    except:
-        next = None
-    try:
-        p = Person.objects.filter(id__lt=id, )
-        prev = p[len(p)-1].id
-    except:
-        prev = None
-    ctx = {
-        'person': person,
-        'next': next,
-        'prev': prev,
-    }
-    return render(request, 'ContactBox/show.html', ctx)
-
-
 class ModifyPersonView(View):
 
-    def get(self, request):
-        pass
+    def get(self, request, id):
+        person = get_object_or_404(Person, pk=id)
+        ctx = {
+            "person": person,
+        }
+        return render(request, "ContactBox/modify.html", ctx)
 
     def post(self, request):
         pass
@@ -167,6 +171,7 @@ class ModifyGroupView(View):
 
 
 class DeleteGroupView(View):
+
     def get(self, request, id):
         group = get_object_or_404(Groups, pk=id)
         ctx = {

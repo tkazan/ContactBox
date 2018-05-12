@@ -22,6 +22,7 @@ class Address(models.Model):
     flat_nr = models.IntegerField(verbose_name='Nr mieszkania', blank=True, null=True)
 
     def __str__(self):
+
         if self.flat_nr:
             return "{}, {} {}/{}".format(self.city, self.street,
                                         self.house_nr, self.flat_nr)
@@ -39,12 +40,11 @@ phone_types = (
 class Phone(models.Model):
     person = models.ForeignKey("Person", on_delete=models.CASCADE)
     number = models.CharField(max_length=64, verbose_name='Numer', blank=True, null=True)
-    type = models.IntegerField(choices=phone_types, verbose_name='Typ',
-                               blank=True, null=True)
+    type = models.IntegerField(choices=phone_types, verbose_name='Typ', blank=True, null=True)
 
     def __str__(self):
         return "{} {} {} - {}".format(self.person.first, self.person.last,
-                                    self.number, self.get_type_display())
+                                      self.number, self.get_type_display())
 
 
 email_types = (
@@ -61,7 +61,7 @@ class Email(models.Model):
 
     def __str__(self):
         return "{} {} - {} - {}".format(self.person.first, self.person.last,
-                                    self.email, self.get_type_display())
+                                        self.email, self.get_type_display())
 
 
 class Groups(models.Model):
