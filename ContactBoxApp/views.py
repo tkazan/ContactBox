@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.forms import formset_factory
 
 from .models import *
 from .forms import *
@@ -76,7 +77,7 @@ class NewPersonView(View):
             f = form.save(commit=False)
             f2 = form2.save()
 
-            if f.address:
+            if f.address is None:
                 f.address = f2
             f.save()
             f3 = form3.save(commit=False)
@@ -98,22 +99,40 @@ class ModifyPersonView(View):
 
     def get(self, request, id):
         person = get_object_or_404(Person, pk=id)
-        form = NewPersonForm(initial={
-            'first': person.first,
-            'last': person.last,
-            'description': person.description,
-            'address': person.address,
-        })
+        form = NewPersonForm(instance=person)
+        form2 = NewAddressForm(instance=person.address)
+        PhoneFormSet = formset_factory(NewPhoneForm)
+        form3 = PhoneFormSet(initial=[
+            {'number': phone.number, 'type': phone.type} for phone in Phone.objects.filter(person=person)
+        ])
+
+        form4 = NewEmailForm()
+        form5 = NewPersonGroupsForm()
         ctx = {
             "person": person,
             'form': form,
+            'form2': form2,
+            'form3': form3,
+            'form4': form4,
+            'form5': form5,
         }
         return render(request, "ContactBox/modify.html", ctx)
 
     def post(self, request, id):
         form = NewPersonForm(request.POST)
-        if form.is_valid():
-            form.save()
+        form2 = NewAddressForm(request.POST)
+        form3 = NewPhoneForm(request.POST)
+        form4 = NewEmailForm(request.POST)
+        form5 = NewPersonGroupsForm(request.POST)
+
+        if (form.is_valid() and form2.is_valid() and form3.is_valid()
+           and form4.is_valid() and form5.is_valid()):
+            f = form.save(commit=False)
+            f2 = form2.save()
+            if f.address is None:
+                f.address = f2
+            f.save()
+
         return redirect(reverse('contactbox:home'))
 
 

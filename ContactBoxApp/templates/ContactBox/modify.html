@@ -8,14 +8,57 @@
     <p class="text-danger">{{ message }}</p>
     <form method="POST" action="#">
     {% csrf_token %}
-        <table>
-            {{ form.as_table }}
-        </table>
+        <div class="float-left mr-4">
+            <label><span class="lead">DANE OSOBOWE:</span><br/>
+            <span class="text-warning">*jeżeli zmieniasz adres, sprawdź czy nie ma go na liście</span>
+                <table class="table table-dark table-striped table-bordered">
+                    {{ form.as_table }}
+                </table>
+            </label>
+        </div>
+        <div class="float-left">
+            <label><span class="lead">ADRES:</span><br/>
+            <span class="text-warning">*jeżeli wybierasz nowy adres, ustaw rozwijaną listę adresów na: -----</span>
+                <table class="table table-dark table-striped table-bordered">
+                    {{ form2.as_table }}
+                </table>
+            </label>
+                <br/>
+            <label><span class="lead">GRUPY:</span><br/>
+                <table class="table table-dark table-striped table-bordered">
+                    {{ form5.as_table }}
+                </table>
+            </label>
+        </div>
+        <br/>
+        <div class="clearfix"></div>
+        <br/>
+        <label><span class="lead">TELEFONY:</span><br/>
+            <table class="table table-dark table-striped table-bordered">
+                {{ form3 }}
+            </table>
+        </label>
+        </label>
+
+        <label><span class="lead">EMAIL:</span><br/>
+            <table class="table table-dark table-striped table-bordered">
+                {{ form4.as_table }}
+            </table>
+        </label>
         <br/>
         <input class="btn btn-warning mr-5" type="submit" value="Edytuj">
         <a href="{% url 'contactbox:home' %}">
             <button class="btn btn-info ml-5">Wróć</button>
         </a>
+        <br/>
+
+
     </form>
 
 {% endblock %}
+
+<form method="post" action="#">
+        {% csrf_token %}
+
+            <input type="submit" name="add" value="Dodaj kontakt" class="btn btn-success">
+        </form>
