@@ -98,13 +98,23 @@ class ModifyPersonView(View):
 
     def get(self, request, id):
         person = get_object_or_404(Person, pk=id)
+        form = NewPersonForm(initial={
+            'first': person.first,
+            'last': person.last,
+            'description': person.description,
+            'address': person.address,
+        })
         ctx = {
             "person": person,
+            'form': form,
         }
         return render(request, "ContactBox/modify.html", ctx)
 
-    def post(self, request):
-        pass
+    def post(self, request, id):
+        form = NewPersonForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return redirect(reverse('contactbox:home'))
 
 
 class DeletePersonView(View):

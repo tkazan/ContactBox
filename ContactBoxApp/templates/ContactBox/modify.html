@@ -1,10 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'ContactBox/base.html' %}
 
-</body>
-</html>
+{% block title %}Modify{% endblock %}
+
+{% block content %}
+
+    <h2>Modyfikuj kontakt: {{ person.first }} {{ person.last }}</h2>
+    <p class="text-danger">{{ message }}</p>
+    <form method="POST" action="#">
+    {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
+        <br/>
+        <input class="btn btn-warning mr-5" type="submit" value="Edytuj">
+        <a href="{% url 'contactbox:home' %}">
+            <button class="btn btn-info ml-5">Wróć</button>
+        </a>
+    </form>
+
+{% endblock %}

@@ -7,26 +7,26 @@
         <form method="post" action="#">
         {% csrf_token %}
             <div class="float-left mr-4">
-            <label><span class="lead">DANE OSOBOWE:</span><br/>
-            <span class="text-warning">*wypełnij przynajmniej jedno z pól imię, nazwisko</span>
-            <table class="table table-dark table-striped table-bordered">
-                {{ form.as_table }}
-            </table>
-            </label>
+                <label><span class="lead">DANE OSOBOWE:</span><br/>
+                <span class="text-warning">*wypełnij przynajmniej jedno z pól imię, nazwisko</span>
+                    <table class="table table-dark table-striped table-bordered">
+                        {{ form.as_table }}
+                    </table>
+                </label>
             </div>
             <div class="float-left">
-            <label><span class="lead">ADRES:</span><br/>
-            <span class="text-warning">*wypełnij jeśli nie ma w adresach</span>
-                <table class="table table-dark table-striped table-bordered">
-                    {{ form2.as_table }}
-                </table>
-            </label>
-                <br/>
-            <label><span class="lead">GRUPY:</span><br/>
-                <table class="table table-dark table-striped table-bordered">
-                    {{ form5.as_table }}
-                </table>
-            </label>
+                <label><span class="lead">ADRES:</span><br/>
+                <span class="text-warning">*wypełnij jeśli nie ma w adresach</span>
+                    <table class="table table-dark table-striped table-bordered">
+                        {{ form2.as_table }}
+                    </table>
+                </label>
+                    <br/>
+                <label><span class="lead">GRUPY:</span><br/>
+                    <table class="table table-dark table-striped table-bordered">
+                        {{ form5.as_table }}
+                    </table>
+                </label>
             </div>
             <br/>
             <div class="clearfix"></div>

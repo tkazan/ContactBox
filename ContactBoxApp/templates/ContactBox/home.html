@@ -11,16 +11,16 @@
             <th>Modyfikuj</th>
             <th>Usuń</th>
         </thead>
-    <tbody>
-    {% for person in persons %}
-        <tr>
-            <td><a class="text-light" href="{% url 'contactbox:person' person.id %}">{{ person.last }}</a></td>
-            <td><a class="text-light" href="{% url 'contactbox:person' person.id %}">{{ person.first }}</a></td>
-            <td><button class="btn btn-warning">modyfikuj</button></td>
-            <td><a href="{% url 'contactbox:delete' person.id %}"><button class="btn btn-danger">usuń</button></a></td>
-        </tr>
-    {% endfor %}
-    </tbody>
+        <tbody>
+        {% for person in persons %}
+            <tr>
+                <td><a class="text-light" href="{% url 'contactbox:person' person.id %}">{{ person.last }}</a></td>
+                <td><a class="text-light" href="{% url 'contactbox:person' person.id %}">{{ person.first }}</a></td>
+                <td><a href="{% url 'contactbox:modify' person.id %}"><button class="btn btn-warning">modyfikuj</button></a></td>
+                <td><a href="{% url 'contactbox:delete' person.id %}"><button class="btn btn-danger">usuń</button></a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
     </table>
 
     {% if persons.has_other_pages %}
