@@ -107,11 +107,9 @@ class ModifyPersonView(View):
                                              extra=1, can_delete=False)
         form3 = PhoneFormSet(instance=person)
 
-        EmailFormSet = formset_factory(NewEmailForm)
-        form4 = EmailFormSet(initial=[
-            {'email': email.email, 'type': email.type} for email in
-            Email.objects.filter(person=person)
-        ])
+        EmailFormSet = inlineformset_factory(Person, Email, fields='__all__',
+                                             extra=1, can_delete=False)
+        form4 = EmailFormSet(instance=person)
 
         PersonGroupsFormSet = formset_factory(NewPersonGroupsForm)
         form5 = PersonGroupsFormSet(initial=[
@@ -137,8 +135,8 @@ class ModifyPersonView(View):
         PhoneFormSet = inlineformset_factory(Person, Phone, fields='__all__')
         form3 = PhoneFormSet(request.POST, instance=person)
 
-        EmailFormSet = formset_factory(NewEmailForm)
-        form4 = EmailFormSet(request.POST)
+        EmailFormSet = inlineformset_factory(Person, Email, fields='__all__')
+        form4 = EmailFormSet(request.POST, instance=person)
 
         PersonGroupsFormSet = formset_factory(NewPersonGroupsForm)
         form5 = PersonGroupsFormSet(request.POST)
@@ -154,18 +152,18 @@ class ModifyPersonView(View):
             for form in form3:
                 if form.is_valid():
                     f = form.save(commit=False)
-
                     if f.number is not None:
                         form.save()
                     if f.id is not None and f.number is None:
                         f.delete()
 
-
-            # for form in form4:
-            #     if form.is_valid():
-            #         form.save(commit=False)
-            #         form.person = person
-            #         form.save()
+            for form in form4:
+                if form.is_valid():
+                    f = form.save(commit=False)
+                    if f.email != "":
+                        form.save()
+                    if f.id is not None and f.email == "":
+                        f.delete()
 
             # for form in form5:
             #     if form.is_valid():
