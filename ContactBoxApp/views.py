@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.forms import formset_factory
+from django.forms import formset_factory, inlineformset_factory
 
 from .models import *
 from .forms import *
@@ -103,11 +103,9 @@ class ModifyPersonView(View):
         form = NewPersonForm(instance=person)
         form2 = NewAddressForm(instance=person.address)
 
-        PhoneFormSet = formset_factory(NewPhoneForm)
-        form3 = PhoneFormSet(initial=[
-            {'number': phone.number, 'type': phone.type}
-            for phone in Phone.objects.filter(person=person)
-        ])
+        PhoneFormSet = inlineformset_factory(Person, Phone, fields='__all__',
+                                             extra=1, can_delete=False)
+        form3 = PhoneFormSet(instance=person)
 
         EmailFormSet = formset_factory(NewEmailForm)
         form4 = EmailFormSet(initial=[
@@ -136,8 +134,8 @@ class ModifyPersonView(View):
         form = NewPersonForm(request.POST, instance=person)
         form2 = NewAddressForm(request.POST)
 
-        PhoneFormSet = formset_factory(NewPhoneForm)
-        form3 = PhoneFormSet(request.POST)
+        PhoneFormSet = inlineformset_factory(Person, Phone, fields='__all__')
+        form3 = PhoneFormSet(request.POST, instance=person)
 
         EmailFormSet = formset_factory(NewEmailForm)
         form4 = EmailFormSet(request.POST)
@@ -153,11 +151,15 @@ class ModifyPersonView(View):
                 f.address = f2
             f.save()
 
-            # for form in form3:
-            #     if form.is_valid():
-            #         form.save(commit=False)
-            #         form.person = person
-            #         form.save()
+            for form in form3:
+                if form.is_valid():
+                    f = form.save(commit=False)
+
+                    if f.number is not None:
+                        form.save()
+                    if f.id is not None and f.number is None:
+                        f.delete()
+
 
             # for form in form4:
             #     if form.is_valid():
@@ -165,13 +167,11 @@ class ModifyPersonView(View):
             #         form.person = person
             #         form.save()
 
-            for form in form5:
-                if form.is_valid():
-                    form.save(commit=False)
-                    form.person = f
-                    form.save()
-
-
+            # for form in form5:
+            #     if form.is_valid():
+            #         form.save(commit=False)
+            #         form.person = f
+            #         form.save()
 
             return redirect(reverse('contactbox:home'))
 
