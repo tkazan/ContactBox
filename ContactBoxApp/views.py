@@ -116,6 +116,7 @@ class ModifyPersonView(View):
             {'groups': element.groups} for element in
             PersonGroups.objects.filter(person=person)
         ])
+
         ctx = {
             "person": person,
             'form': form,
@@ -151,25 +152,30 @@ class ModifyPersonView(View):
 
             for form in form3:
                 if form.is_valid():
-                    f = form.save(commit=False)
-                    if f.number is not None:
+                    f3 = form.save(commit=False)
+                    if f3.number is not None:
                         form.save()
-                    if f.id is not None and f.number is None:
-                        f.delete()
+                    if f3.id is not None and f3.number is None:
+                        f3.delete()
 
             for form in form4:
                 if form.is_valid():
-                    f = form.save(commit=False)
-                    if f.email != "":
+                    f4 = form.save(commit=False)
+                    if f4.email != "":
                         form.save()
-                    if f.id is not None and f.email == "":
-                        f.delete()
+                    if f4.id is not None and f4.email == "":
+                        f4.delete()
 
-            # for form in form5:
-            #     if form.is_valid():
-            #         form.save(commit=False)
-            #         form.person = f
-            #         form.save()
+            for form in form5:
+                if form.is_valid():
+                    f5 = form.save(commit=False)
+                    try:
+                        f5.person = person
+                        my_list = [element.groups for element in PersonGroups.objects.filter(person=person)]
+                        if f5.groups not in my_list:
+                            f5.save()
+                    except:
+                        pass
 
             return redirect(reverse('contactbox:home'))
 

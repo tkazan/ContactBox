@@ -27,32 +27,42 @@
         <br/>
         <div class="clearfix"></div>
         <br/>
-        <label><span class="lead">TELEFONY:</span><br/>
-            <table class="table table-dark table-striped table-bordered">
-                {{ form3 }}
-            </table>
-        </label>
-
-        <label><span class="lead">EMAIL:</span><br/>
-            <table class="table table-dark table-striped table-bordered">
-                {{ form4 }}
-            </table>
-        </label>
-
-        <label><span class="lead">GRUPY:</span><br/>
+        <div class="float-left mr-4">
+            <label><span class="lead">TELEFONY:</span><br/>
+                <span class="text-warning">*jeżeli chcesz usunąć telefon, po prostu<br/>
+                                            usuń dane z pola "Numer", aby było puste</span>
+                <table class="table table-dark table-striped table-bordered">
+                    {{ form3 }}
+                </table>
+            </label>
+        </div>
+        <div class="float-left mr-4">
+            <label><span class="lead">EMAIL:</span><br/>
+                <span class="text-warning">*jeżeli chcesz usunąć email, po prostu<br/>
+                                            usuń dane z pola "Email", aby było puste</span>
+                <table class="table table-dark table-striped table-bordered">
+                    {{ form4 }}
+                </table>
+            </label>
+        </div>
+        <div class="float-left mr-4">
+            <label><span class="lead">GRUPY:</span><br/>
+                <span class="text-warning">*jeżeli chcesz usunąć grupę,<br/>
+                                        zmień wartość pola na: ---------</span>
                 <table class="table table-dark table-striped table-bordered">
                     {{ form5.as_table }}
                 </table>
             </label>
+        </div>
+        <div class="clearfix"></div>
         <br/>
         <input class="btn btn-warning mr-5" type="submit" value="Edytuj">
-        <a href="{% url 'contactbox:home' %}">
-            <button class="btn btn-info ml-5">Wróć</button>
-        </a>
+
         <br/>
-
-
     </form>
+    <a href="{% url 'contactbox:home' %}">
+        <button class="btn btn-info mt-2">Wróć</button>
+    </a>
 
 {% endblock %}
 
