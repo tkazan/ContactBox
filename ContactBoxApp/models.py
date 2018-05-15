@@ -73,7 +73,7 @@ class Groups(models.Model):
 
 class PersonGroups(models.Model):
     person = models.ForeignKey("Person")
-    groups = models.ForeignKey("Groups", verbose_name='Grupy')
+    groups = models.ForeignKey("Groups", verbose_name='Grupy', blank=True)
 
     def __str__(self):
         return "{} {}".format(self.person.first, self.groups.groupname)

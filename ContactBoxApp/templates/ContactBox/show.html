@@ -29,11 +29,15 @@
                     {% endif %}
                 </td>
                 <td>{% for phone in person.phone_set.all %}
+                        {% if phone.number %}
                         {{ phone.number }} - {{ phone.get_type_display }} <br/>
+                        {% endif %}
                     {% endfor %}
                 </td>
                 <td>{% for mail in person.email_set.all %}
+                        {% if mail.mail %}
                         {{ mail.email }} - {{ mail.get_type_display }} <br/>
+                        {% endif %}
                     {% endfor %}
                 </td>
                 <td>{% for group in person.groups.all %}

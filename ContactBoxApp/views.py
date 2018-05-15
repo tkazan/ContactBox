@@ -87,8 +87,11 @@ class NewPersonView(View):
             f4.person = f
             f4.save()
             f5 = form5.save(commit=False)
-            f5.person = f
-            f5.save()
+            try:
+                f5.person = f
+                f5.save()
+            except:
+                pass
 
             return redirect(reverse('contactbox:home'))
 
@@ -177,9 +180,9 @@ class ModifyPersonView(View):
                     except:
                         pass
 
-            return redirect(reverse('contactbox:home'))
+            return redirect(reverse('contactbox:person', args=(id,)))
 
-        return redirect(reverse('contactbox:modify', args=id))
+        return redirect(reverse('contactbox:modify', args=(id,)))
 
 
 class DeletePersonView(View):
