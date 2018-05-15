@@ -31,11 +31,11 @@ def home(request):
 def show_person(request, id):
     person = get_object_or_404(Person, pk=id)
     try:
-        next_person = Person.objects.filter(pk__gt=id)[0].id
+        next_person = Person.objects.filter(pk__gt=id).order_by('id')[0].id
     except:
         next_person = None
     try:
-        p = Person.objects.filter(id__lt=id, )
+        p = Person.objects.filter(id__lt=id).order_by('id')
         prev = p[len(p)-1].id
     except:
         prev = None
@@ -145,8 +145,8 @@ class ModifyPersonView(View):
         if (form.is_valid() and form2.is_valid() and form3.is_valid()
            and form4.is_valid() and form5.is_valid()):
             f = form.save(commit=False)
-            f2 = form2.save()
             if f.address is None:
+                f2 = form2.save()
                 f.address = f2
             f.save()
 
@@ -171,8 +171,8 @@ class ModifyPersonView(View):
                     f5 = form.save(commit=False)
                     try:
                         f5.person = person
-                        my_list = [element.groups for element in PersonGroups.objects.filter(person=person)]
-                        if f5.groups not in my_list:
+                        groups_list = [element.groups for element in PersonGroups.objects.filter(person=person)]
+                        if f5.groups not in groups_list:
                             f5.save()
                     except:
                         pass
