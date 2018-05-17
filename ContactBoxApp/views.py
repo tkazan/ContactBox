@@ -47,6 +47,15 @@ def show_person(request, id):
     return render(request, 'ContactBox/show.html', ctx)
 
 
+class SearchPersonView(View):
+
+    def get(self, request):
+        return HttpResponse('Tutaj bedzie wyszukiwarka')
+
+    def post(self, request):
+        pass
+
+
 class NewPersonView(View):
 
     def get(self, request):
