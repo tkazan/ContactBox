@@ -70,6 +70,9 @@ class SearchPersonView(View):
             else:
                 contacts3 = contacts2
 
+            if first == "" and last == "" and group == "":
+                contacts3 = None
+
             ctx = {
                 'contacts': contacts3,
             }
