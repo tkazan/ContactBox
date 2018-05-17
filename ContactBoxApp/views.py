@@ -50,10 +50,33 @@ def show_person(request, id):
 class SearchPersonView(View):
 
     def get(self, request):
-        return HttpResponse('Tutaj bedzie wyszukiwarka')
+        try:
+            first = request.GET.get('first')
+            last = request.GET.get('last')
+            group = request.GET.get('group')
 
-    def post(self, request):
-        pass
+            if first != "":
+                contacts1 = Person.objects.filter(first__icontains=first)
+            else:
+                contacts1 = Person.objects.all()
+
+            if last != "":
+                contacts2 = contacts1.filter(last__icontains=last)
+            else:
+                contacts2 = contacts1
+
+            if group != "":
+                contacts3 = contacts2.filter(groups__groupname__icontains=group)
+            else:
+                contacts3 = contacts2
+
+            ctx = {
+                'contacts': contacts3,
+            }
+        except:
+            ctx = {}
+
+        return render(request, 'ContactBox/search.html', ctx)
 
 
 class NewPersonView(View):

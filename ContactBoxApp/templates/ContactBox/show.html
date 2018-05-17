@@ -23,7 +23,10 @@
                     {{ person.address.city }}, <br/>
                     {% endif %}
                     {% if person.address.street %}
-                    ul. {{ person.address.street }} {{ person.address.house_nr }}
+                    ul. {{ person.address.street }}
+                    {% if person.address.house_nr %}
+                        {{ person.address.house_nr }}
+                    {% endif %}
                     {% endif %}
                     {% if person.address.flat_nr %}/{{ person.address.flat_nr }}
                     {% endif %}
@@ -35,7 +38,7 @@
                     {% endfor %}
                 </td>
                 <td>{% for mail in person.email_set.all %}
-                        {% if mail.mail %}
+                        {% if mail.email %}
                         {{ mail.email }} - {{ mail.get_type_display }} <br/>
                         {% endif %}
                     {% endfor %}

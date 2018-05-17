@@ -1,0 +1,80 @@
+{% extends 'ContactBox/base.html'%}
+
+{% block title %}Search Contact{% endblock %}
+
+{% block content %}
+
+    <h2>Wyszukaj kontakt:</h2>
+    <form method="get" action="{% url 'contactbox:search' %}">
+        <table class="table table-dark table-striped table-bordered">
+            <tbody>
+                <tr>
+                    <th>Imię</th>
+                    <td><input type="text" name="first"></td>
+                </tr>
+                <tr>
+                    <th>Nazwisko</th>
+                    <td><input type="text" name="last"></td>
+                </tr>
+                <tr>
+                    <th>Grupa</th>
+                    <td><input type="text" name="group"></td>
+                </tr>
+            </tbody>
+        </table>
+        <input type="submit" name="search" value="Wyszukaj">
+    </form>
+    <br/>
+    {% if contacts %}
+        <h2>Wyniki Wyszukiwania:</h2>
+        <table class="table table-dark table-striped table-bordered">
+            <thead class="lead">
+                <th>IMIĘ</th>
+                <th>NAZWISKO</th>
+                <th>OPIS</th>
+                <th>ADRES</th>
+                <th>TELEFON</th>
+                <th>MAIL</th>
+                <th>GRUPY</th>
+            </thead>
+            <tbody>
+            {% for contact in contacts %}
+                <tr>
+                    <td><a class="text-light" href="{% url 'contactbox:person' contact.id %}"><u>{{ contact.first }}</u></a></td>
+                    <td><a class="text-light" href="{% url 'contactbox:person' contact.id %}"><u>{{ contact.last }}</u></a></td>
+                    <td>{{ contact.description }}</td>
+                    <td>{% if contact.address.city %}
+                    {{ contact.address.city }}, <br/>
+                    {% endif %}
+                    {% if contact.address.street %}
+                    ul. {{ contact.address.street }}
+                    {% if contact.address.house_nr %}
+                        {{ contact.address.house_nr }}
+                    {% endif %}
+                    {% endif %}
+                    {% if contact.address.flat_nr %}/{{ contact.address.flat_nr }}
+                    {% endif %}
+                    </td>
+                    <td>{% for phone in contact.phone_set.all %}
+                            {% if phone.number %}
+                            {{ phone.number }} - {{ phone.get_type_display }} <br/>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>{% for mail in contact.email_set.all %}
+                            {% if mail.email %}
+                            {{ mail.email }} - {{ mail.get_type_display }} <br/>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>{% for group in contact.groups.all %}
+                            {{ group.groupname }} <br/>
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+{% endblock %}
