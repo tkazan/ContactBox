@@ -31,7 +31,7 @@ $ sudo apt-get install postgresql postgresql-contrib
 7. Create and activate a new virtenv: <br/>
 $ virtualenv -p python3 DjangoVirtEnv <br/>
 $ source DjangoVirtEnv/bin/activate
-8. Install requirements: <br/>bookconfroom
+8. Install requirements: <br/>
 (Django==1.11.6, psycopg2) <br/>
 $ pip3 install -r requirements.txt
 9. Run a database backup file: <br/>
